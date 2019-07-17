@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>VUE Demo 01</title>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    </head>
+
+    <body>
+
+        <div id="app">
+            {{ message }}
+        </div>
+
+        <div id="app-2">
+            <span v-bind:title="message">
+              鼠标悬停几秒钟查看此处动态绑定的提示信息！
+            </span>
+        </div>
+
+        <div id="app-3">
+            <p v-if="seen">现在你看到我了</p>
+        </div>
+
+        <div id="app-4">
+            <ol>
+              <li v-for="todo in todos">
+                {{ todo.text }}
+              </li>
+            </ol>
+        </div>
+
+        <div id="app-5">
+            <p>{{ message }}</p>
+            <button v-on:click="reverseMessage">反转消息</button>
+        </div>
+
+        <div id="app-6">
+            <p>{{ message }}</p>
+            <input v-model="message">
+        </div>
+
+        <div id="app-7">
+            <ol>
+              <!--
+                现在我们为每个 todo-item 提供 todo 对象
+                todo 对象是变量，即其内容可以是动态的。
+                我们也需要为每个组件提供一个“key”，稍后再
+                作详细解释。
+              -->
+              <todo-item
+                v-for="item in groceryList"
+                v-bind:todo="item"
+                v-bind:key="item.id"
+              ></todo-item>
+            </ol>
+
+            <div
+                class="static"
+                v-bind:class="classObject">
+                v-bind:class 指令也可以与普通的 class 属性共存
+            </div>
+        </div>
+
+        <div id="app-8">
+            <div v-if="loginType === 'username'" class="template1">
+                <label class="a">Username</label>
+                <input class="b" placeholder="Enter your username">
+            </div>
+            <template v-else>
+                <label class="c">Email</label>
+                <input class="d" placeholder="Enter your email address">
+            </template>
+        </div>
+
+        <div id="app-9">
+            <h1 v-show="'ok' === is_show">Hello!</h1>
+        </div>
+        
+        <ul id="app-10" class="demo">
+            <li v-for="(value, name, index) in object">
+                {{ index }}. {{ name }}: {{ value }}
+            </li>
+
+            <li v-for="(value, name, index) in object" v-bind:key="index">
+                {{ index }}. {{ name }}: {{ value }}
+            </li>
+        </ul>
+
+        <ul id="app-11">
+            <li v-for="(item, index) in items" :key="item.id">
+              {{ parentMessage }} - {{ index }} - {{ item.message }}
+            </li>
+        </ul>
+
+        <ul id="app-12">
+            <li v-for="n in evenNumbers">{{ n }}</li>
+        </ul>
+
+        <ul id="app-13">
+            <li v-for="n in even(numbers)">{{ n }}</li>
+
+            <span v-for="n in 10">{{ n }} </span>
+        </ul>
+
+        <!-- v-for为什么要加key -->
+        <div id="app-14">
+            <div>
+              <input type="text" v-model="name">
+              <button @click="add">添加</button>
+            </div>
+            <ul>
+              <!-- <li v-for="(item, i) in list" :key="item.id"> -->
+              <li v-for="(item, i) in list">
+                <input type="checkbox"> {{item.name}}
+              </li>
+            </ul>
+        </div>
+
+        <div id="app-15">
+            <form v-on:submit.prevent="addNewTodo">
+                <label for="new-todo">Add a todo</label>
+                <input
+                v-model="newTodoText"
+                id="new-todo"
+                placeholder="E.g. Feed the cat"
+                >
+                <button>Add</button>
+            </form>
+            <ul>
+                <li
+                is="todo-item-2"
+                v-for="(todo, index) in todos"
+                v-bind:key="todo.id"
+                v-bind:title="todo.title"
+                v-on:remove_1="todos.splice(index, 1)"
+                ></li>
+            </ul>
+        </div>
+
+    <script src="default.js"></script>
+    </body>
+</html>
