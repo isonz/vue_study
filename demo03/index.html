@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VUE Demo 03</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <h1>表单输入绑定</h1>
+    <div id="app-1">
+        <input v-model="message" placeholder="edit me">
+        <p>Message is: {{ message }}</p>
+
+        <span>Multiline message is:</span>
+        <p style="white-space: pre-line;">{{ message }}</p>
+        <br>
+        <!-- 在文本区域插值 (<textarea>{{text}}</textarea>) 并不会生效，应用 v-model 来代替。 -->
+        <textarea v-model="message" placeholder="add multiple lines"></textarea>
+
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <label for="checkbox">{{ checked }}</label>
+
+
+    </div>
+    
+    <div id='example-3'>
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+        <br>
+        <span>Checked names: {{ checkedNames }}</span>
+    </div>
+
+    <div id="example-4">
+        <input type="radio" id="one" value="One" v-model="picked">
+        <label for="one">One</label>
+        <br>
+        <input type="radio" id="two" value="Two" v-model="picked">
+        <label for="two">Two</label>
+        <br>
+        <span>Picked: {{ picked }}</span>
+    </div>
+    
+    <div id="example-5">
+        <select v-model="selected">
+            <option disabled value="">请选择</option>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <span>Selected: {{ selected }}</span>
+    </div>
+    <!--
+        如果 v-model 表达式的初始值未能匹配任何选项，<select> 元素将被渲染为“未选中”状态。
+        在 iOS 中，这会使用户无法选择第一个选项。因为这样的情况下，iOS 不会触发 change 事件。
+        因此，更推荐像上面这样提供一个值为空的禁用选项。
+    -->
+
+    <div id="example-6">
+        <select v-model="selected" multiple style="width: 50px;">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <br>
+        <span>Selected: {{ selected }}</span>
+    </div>
+
+
+    <div id="example-7">
+        <select v-model="selected">
+            <option v-for="option in options" v-bind:value="option.value">
+                {{ option.text }}
+            </option>
+        </select>
+        <span>Selected: {{ selected }}</span>
+
+        <p>
+            <!-- 当选中时，`picked` 为字符串 "a" -->
+            <input type="radio" v-model="picked" value="a">
+            {{picked}}
+        </p>
+
+        <p>
+            <!-- `toggle` 为 true 或 false -->
+            <input type="checkbox" v-model="toggle">
+            {{toggle}}
+        </p>
+
+        <p>
+            <!-- 当选中第一个选项时，`selected` 为字符串 "abc" -->
+            <select v-model="selected">
+                <option value="abc">ABC</option>
+            </select>
+            {{selected}}
+        </p>
+
+        <p>
+            <input
+                type="checkbox"
+                v-model="toggle"
+                true-value="yes"
+                false-value="no"
+            >
+            {{toggle}}
+            <!--
+                这里的 true-value 和 false-value 特性并不会影响输入控件的 value 特性，
+                因为浏览器在提交表单时并不会包含未被选中的复选框。
+                如果要确保表单中这两个值中的一个能够被提交，(比如“yes”或“no”)，请换用单选按钮。
+            -->
+        </p>
+
+        <p>
+            <select v-model="selected">
+                <!-- 内联对象字面量 -->
+                <option v-bind:value="{ number: 123 }">123</option>
+            </select>
+        </p>
+
+        <p>
+            <!-- 在“change”时而非“input”时更新 -->
+            <input v-model.lazy="msg" >
+            {{msg}}
+        </p>
+
+        <p>
+            <!-- 如果想自动将用户的输入值转为数值类型，可以给 v-model 添加 number 修饰符： -->
+            <input v-model.number="age" type="number">
+            {{age}}
+        </p>
+
+        <p>
+            <!-- 如果要自动过滤用户输入的首尾空白字符，可以给 v-model 添加 trim 修饰符： -->
+            <input v-model.trim="msg">
+            {{msg}}
+        </p>
+
+    </div>
+
+
+
+
+    <script src="default.js"></script>
+</body>
+</html>
