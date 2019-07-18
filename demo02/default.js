@@ -1,189 +1,38 @@
-
-var app = new Vue({
-    el: '#app',
-    data: {
-      message: 'Hello Vue!'
-    }
+var example1 = new Vue({
+  el: '#example-1',
+  data: {
+    counter: 0
+  }
 });
 
-var app2 = new Vue({
-    el: '#app-2',
-    data: {
-      message: '页面加载于 ' + new Date().toLocaleString()
+var example2 = new Vue({
+  el: '#example-2',
+  data: {
+    name: 'Vue.js'
+  },
+  // 在 `methods` 对象中定义方法
+  methods: {
+    greet: function (event) {
+      // `this` 在方法里指向当前 Vue 实例
+      alert('Hello ' + this.name + '!')
+      // `event` 是原生 DOM 事件
+      if (event) {
+        alert(event.target.tagName)
+      }
     }
+  }
 });
 
-var app3 = new Vue({
-    el: '#app-3',
-    data: {
-      seen: true
-    }
-});
-
-var app4 = new Vue({
-    el: '#app-4',
-    data: {
-      todos: [
-        { text: '学习 JavaScript' },
-        { text: '学习 Vue' },
-        { text: '整个牛项目' }
-      ]
-    }
-});
-
-var app5 = new Vue({
-    el: '#app-5',
-    data: {
-      message: 'Hello Vue.js!'
+var example3 = new Vue({
+  el: '#example-3',
+  methods: {
+    say: function (message) {
+      alert(message)
     },
-    methods: {
-      reverseMessage: function () {
-        this.message = this.message.split('').reverse().join('')
-      }
-    }
-});
-
-var app6 = new Vue({
-    el: '#app-6',
-    data: {
-      message: 'Hello Vue!'
-    }
-});
-
-
-Vue.component('todo-item', {
-    props: ['todo'],
-    template: '<li data="{{ todo.id }}">{{ todo.text }}</li>'
-})
-var app7 = new Vue({
-  el: '#app-7',
-  data: {
-      groceryList: [
-        { id: 0, text: '蔬菜' },
-        { id: 1, text: '奶酪' },
-        { id: 2, text: '随便其它什么人吃的东西' }
-      ],
-      classObject: {
-        active: true,
-        'text-danger': false
-      }
-  }
-});
-
-var app8 = new Vue({
-  el:'#app-8',
-  data: {
-    loginType: 'username',
-    is_show: 'ok',
-  }
-});
-
-var app9 = new Vue({
-  el:'#app-9',
-  data: {
-    is_show: 'ok',
-  }
-});
-
-var app10 = new Vue({
-  el: '#app-10',
-  data: {
-    object: {
-      title: 'How to do lists in Vue',
-      author: 'Jane Doe',
-      publishedAt: '2016-04-10'
-    }
-  }
-  // app10.$set(app10.object, "autoooo", "asdfsadfasdf");
-});
-
-var app11 = new Vue({
-  el: '#app-11',
-  data: {
-    parentMessage: 'Parent',
-    items: [
-      { message: 'Foo' },
-      { message: 'Bar' }
-    ]
-  }
-});
-
-var app12 = new Vue({
-  el: '#app-12',
-  data: {
-    numbers:[1,2,3,4,5,6,7,8,9],
-  },
-  computed: {
-    evenNumbers: function(){
-      return this.numbers.filter( function (number) {
-        return number % 2 === 0;
-      });
+    warn: function (message, event) {
+      // 现在我们可以访问原生事件对象
+      if (event) event.preventDefault()
+      alert(message)
     }
   }
 });
-
-var app13 = new Vue({
-  el: '#app-13',
-  data: {
-    numbers:[1,2,3,4,5,6,7,8,9],
-  },
-  methods: {
-    even: function(numbers){
-      return numbers.filter( function (number) {
-        return number % 2 === 0;
-      });
-    }
-  }
-});
-
-var app14 = new Vue({
-  el: '#app-14',
-  data: {
-    name: '',
-    newId: 3,
-    list: [
-      { id: 1, name: '李斯' },
-      { id: 2, name: '吕不韦' },
-      { id: 3, name: '嬴政' }
-    ]
-  },
-  methods: {
-    add() {
-     //注意这里是 unshift
-      this.list.unshift({ id: ++this.newId, name: this.name })
-      this.name = ''
-    }
-  }
-});
-
-Vue.component('todo-item-2', {
-  template: '\
-    <li>\
-      {{ title }}\
-      <button v-on:click="$emit(\'remove_1\')">Remove</button>\
-    </li>\
-  ',
-  props: ['title']
-})
-var app15 = new Vue({
-  el: '#app-15',
-  data: {
-    newTodoText: '',
-    todos: [
-      {id: 1, title: 'Do the dishes'},
-      {id: 2, title: 'Take out the trash'},
-      {id: 3, title: 'Mow the lawn'}
-    ],
-    nextTodoId: 4
-  },
-  methods: {
-    addNewTodo: function () {
-      this.todos.push({
-        id: this.nextTodoId++,
-        title: this.newTodoText
-      });
-      this.newTodoText = '';
-    }
-  }
-});
-

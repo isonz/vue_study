@@ -1,18 +1,121 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>VUE Demo 02</title>
-        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    </head>
-    <body>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VUE Demo 02</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
 
-        <div id="app">
-            {{ message }}
-        </div>
+    <div id="example-1">
+        <button v-on:click="counter += 1">Add 1</button>
+        <p>The button above has been clicked {{ counter }} times.</p>
+    </div>
 
-        
+    <div id="example-2">
+        <!-- `greet` 是在下面定义的方法名 -->
+        <button v-on:click="greet">Greet</button>
+    </div>
+    
+    <div id="example-3">
+        <button v-on:click="say('hi')">Say hi</button>
+        <button v-on:click="say('what')">Say what</button>
+
+        <button v-on:click="warn('Form cannot be submitted yet.', $event)">
+            Submit
+        </button>
+
+        <br><br>
+        <!-- 阻止单击事件继续传播 -->
+        <a v-on:click.stop="say('hi')">阻止单击事件继续传播</a>
+
+        <!-- 提交事件不再重载页面 -->
+        <form v-on:submit.prevent="say('hi')">提交事件不再重载页面</form>
+
+        <!-- 修饰符可以串联 -->
+        <a v-on:click.stop.prevent="say('hi')">修饰符可以串联</a>
+
+        <!-- 只有修饰符 -->
+        <form v-on:submit.prevent>只有修饰符</form>
+
+        <!-- 添加事件监听器时使用事件捕获模式 -->
+        <!-- 即元素自身触发的事件先在此处理，然后才交由内部元素进行处理 -->
+        <div v-on:click.capture="say('hi')">事件监听器时使用事件捕获模式</div>
+
+        <!-- 只当在 event.target 是当前元素自身时触发处理函数 -->
+        <!-- 即事件不是从内部元素触发的 -->
+        <div v-on:click.self="say('hi')">事件不是从内部元素触发的</div>
+
+        <!-- 使用修饰符时，顺序很重要；相应的代码会以同样的顺序产生。-->
+        <!-- 因此，用 v-on:click.prevent.self 会阻止所有的点击，
+            而 v-on:click.self.prevent 只会阻止对元素自身的点击。-->
+
+        <!-- 点击事件将只会触发一次 -->
+        <a v-on:click.once="say('hi')">点击事件将只会触发一次</a>
+
+        <!-- 滚动事件的默认行为 (即滚动行为) 将会立即触发 -->
+        <!-- 而不会等待 `onScroll` 完成  -->
+        <!-- 这其中包含 `event.preventDefault()` 的情况 -->
+        <!-- 这个 .passive 修饰符尤其能够提升移动端的性能 -->
+        <div v-on:scroll.passive="onScroll">滚动事件的默认行为 (即滚动行为) 将会立即触发</div>
+
+        <!--
+            不要把 .passive 和 .prevent 一起使用，.
+            因为 .prevent 将会被忽略，同时浏览器可能会向你展示一个警告。
+            请记住，.passive 会告诉浏览器你不想阻止事件的默认行为。
+        -->
+
+        <!-- 只有在 `key` 是 `Enter` 时调用 `vm.submit()` -->
+        <input v-on:keyup.enter="say('hi')">
+
+        <!-- 你可以直接将 KeyboardEvent.key 暴露的任意有效按键名转换为 kebab-case 来作为修饰符。 -->
+        <!-- 示例中，处理函数只会在 $event.key 等于 PageDown 时被调用。 -->
+        <input v-on:keyup.page-down="say('hi')">
+
+        <!-- keyCode 的事件用法已经被废弃了并可能不会被最新的浏览器支持。 -->
+        <input v-on:keyup.13="say('hi')">
+
+        <!-- 按键码的别名
+            .enter  .tab    .delete (捕获“删除”和“退格”键)  .esc    .space
+            .up     .down   .left   .right  .ctrl   .alt    .shift      .meta
+            有一些按键 (.esc 以及所有的方向键) 在 IE9 中有不同的 key 值, 如果你想支持 IE9，这些内置的别名应该是首选。
+            
+            你还可以通过全局 config.keyCodes 对象自定义按键修饰符别名：
+            // 可以使用 `v-on:keyup.f1` 
+            Vue.config.keyCodes.f1 = 112
+        -->
+
+        <!-- Alt + C -->
+        <input @keyup.alt.67="say('hi')">
+
+        <!-- Ctrl + Click -->
+        <div @click.alt="say('hi')">Do something</div>
+
+        <!--
+            请注意修饰键与常规按键不同，在和 keyup 事件一起用时，事件触发时修饰键必须处于按下状态。
+            换句话说，只有在按住 ctrl 的情况下释放其它按键，才能触发 keyup.ctrl。
+            而单单释放 ctrl 也不会触发事件。如果你想要这样的行为，请为 ctrl 换用 keyCode：keyup.17。
+        -->
+
+        <!-- .exact 修饰符允许你控制由精确的系统修饰符组合触发的事件。-->
+        <!-- 即使 Ctrl 或 Shift 被一同按下时也会触发 -->
+        <button @click.alt="say('hi')">A</button>
+
+        <!-- 有且只有 Alt 被按下的时候才触发 -->
+        <button @click.alt.exact="say('hi')">A</button>
+
+        <!-- 没有任何系统修饰符被按下的时候才触发 -->
+        <button @click.exact="say('hi')">A</button>
+
+        <!-- 鼠标按钮修饰符 .left   .right  .middle -->
+        <button @click.middle="say('hi')">A</button>
+
+
+
+    </div>
+
+
     <script src="default.js"></script>
-    </body>
+</body>
 </html>
