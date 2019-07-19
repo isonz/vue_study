@@ -129,3 +129,39 @@ new Vue({
   }
 });
 
+
+Vue.component('base-input', {
+  //inheritAttrs: false,
+  inheritAttrs: false,
+  props: ['label', 'value'],
+  //props: ['value'],
+  template: `
+    <label>
+      {{ label }}
+      <input
+        v-bind="$attrs"
+        v-bind:value="value"
+        v-on:input="$emit('input', $event.target.value)"
+      >
+    </label>
+  `
+})
+
+var ComponentC = {template: '<div>ComponentC ComponentC</div>' }
+var ComponentA = {template: '<div>ComponentA ComponentA</div>'}
+var ComponentB = {
+  components: {
+    'component-c': ComponentC
+  },
+  template: '<div>ComponentB ComponentB</div> <component-c></component-c>',
+}
+var app2 = new Vue({ 
+  el: '#app-2',
+  components: {
+    'component-a': ComponentA,
+    'component-b': ComponentB
+  },
+  data: {
+    username: 'ssssssss',
+  },
+});

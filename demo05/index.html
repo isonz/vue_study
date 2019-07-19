@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VUE Demo 05</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <h1></h1>
+    
+    <div id="app-1">
+        <div class="container">
+            <header>
+                <slot name="header"></slot>
+            </header>
+            <main>
+                <slot></slot>
+            </main>
+            <footer>
+                <slot name="footer"></slot>
+            </footer>
+        </div>
+    </div>
+
+
+    <script src="default.js"></script>
+</body>
+</html>
