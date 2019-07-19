@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VUE Demo 04</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <h1>组件基础</h1>
+    
+    <div id="app-1">
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <br><hr><br>
+
+        <blog-post title="My journey with Vue"></blog-post>
+        <blog-post title="Blogging with Vue"></blog-post>
+        <blog-post title="Why Vue is so fun"></blog-post>
+        <br><hr><br>
+
+        <blog-post v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title"></blog-post>
+        <br><hr><br>
+
+        <blog-post-1 title="Why Vue is so fun" content="Why Vue is so funWhy Vue is so fun"></blog-post-1>
+        <br><hr><br>
+
+        <blog-post-2 v-for="post in posts" v-bind:key="post.id" v-bind:post="post"></blog-post-2>
+        <br><hr><br>
+
+        <div :style="{fontSize: postFontSize + 'em'}">
+            <!-- $event=0.1 -->
+            <blog-post-2 @enlarge-text="postFontSize += $event" v-for="post in posts" v-bind:key="post.id" v-bind:post="post"></blog-post-2>
+        </div>
+        <br><hr><br>
+
+        <div :style="{fontSize: postFontSize + 'em'}">
+            <!-- $event=0.1 -->
+            <blog-post-2 @enlarge-text="onEnlargeText" v-for="post in posts" v-bind:key="post.id" v-bind:post="post"></blog-post-2>
+        </div>
+        <br><hr><br>
+
+        <custom-input v-model="searchText"></custom-input>
+        {{searchText}}
+        <br><hr><br>
+
+        <alert-box>Something bad happened.</alert-box>
+        <br><hr><br>
+    </div>
+
+
+
+    <style>
+    .tab-button {
+        padding: 6px 10px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        background: #f0f0f0;
+        margin-bottom: -1px;
+        margin-right: -1px;
+    }
+    .tab-button:hover {
+        background: #e0e0e0;
+    }
+    .tab-button.active {
+        background: #e0e0e0;
+    }
+    .tab {
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+    </style>
+    <div id="dynamic-component-demo" class="demo">
+        <button
+            v-for="tab in tabs"
+            v-bind:key="tab"
+            v-bind:class="['tab-button', { active: currentTab === tab }]"
+            v-on:click="currentTab = tab"
+        >{{ tab }}</button>
+        
+        <!-- 组件会在 `currentTabComponent` 改变时改变 -->
+        <component v-bind:is="currentTabComponent" class="tab"></component>
+    </div>
+
+    <br><hr><br>
+
+    <div id="dynamic-component-demo-1" class="demo">
+        <button
+            v-for="tab in tabs"
+            v-bind:key="tab.name"
+            v-bind:class="['tab-button', { active: currentTab.name === tab.name }]"
+            v-on:click="currentTab = tab"
+        >{{ tab.name }}</button>
+
+        <component v-bind:is="currentTab.component" class="tab"></component>
+
+
+        <table>
+            <tr is="blog-post-row"></tr>
+        </table>
+    </div>
+
+    <script src="default.js"></script>
+</body>
+</html>
